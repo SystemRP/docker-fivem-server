@@ -1,7 +1,7 @@
 #!/bin/bash
 CUR_V="$(find ${SERVER_DIR} -name fiveminstalled-* | cut -d '-' -f 2,3)"
-LAT_V="$(wget -q -O - ${SRV_ADR} | grep -B 1 'LATEST RECOMMENDED' | head -n -1 | cut -d '"' -f 2 | cut -d '-' -f 1 | cut -c3-)"
-DL_URL=${SRV_ADR}"$(wget -q -O - ${SRV_ADR} | grep -B 1 'LATEST RECOMMENDED' | head -n -1 | cut -d '"' -f 2 | cut -c3-)"
+LAT_V="$(curl -s https://fivem.gbps.io/linux/${VERSION} | cut -d '-' -f 1 | cut -d '/' -f 8)"
+DL_URL=$(curl -s https://fivem.gbps.io/linux/${VERSION})
 
 if [ "${MANUAL_UPDATES}" == "true" ]; then
     if [ "$CUR_V" == "manual" ]; then
