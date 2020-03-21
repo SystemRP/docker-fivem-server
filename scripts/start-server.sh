@@ -157,4 +157,4 @@ echo "---Starting Server---"
 cd ${SERVER_DIR}
 screen -S FiveM -L -Logfile ${SERVER_DIR}/server.log -m ${SERVER_DIR}/run.sh +exec ${GAME_CONFIG} ${START_VARS}
 sleep 2
-tail -f ${SERVER_DIR}/masterLog.0
+tail -f ${SERVER_DIR}/server.log
