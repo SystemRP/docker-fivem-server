@@ -1,16 +1,17 @@
 FROM ich777/debian-baseimage
 
-LABEL maintainer="admin@minenet.at"
+LABEL maintainer="x@gbps.io"
 
 RUN apt-get update && \
-	apt-get -y install --no-install-recommends xz-utils unzip screen && \
+	apt-get -y install --no-install-recommends xz-utils unzip screen curl && \
 	rm -rf /var/lib/apt/lists/*
 
-ENV DATA_DIR="/serverdata"
+ENV DATA_DIR="/server"
 ENV SERVER_DIR="${DATA_DIR}/serverfiles"
 ENV GAME_CONFIG="template"
 ENV SRV_ADR="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/"
 ENV MANUAL_UPDATES=""
+ENV VERSION="development"
 ENV UMASK=000
 ENV UID=99
 ENV GID=100
