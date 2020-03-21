@@ -64,7 +64,7 @@ else
         elif [ "$LAT_V" != "" ]; then
             echo "---FiveM not found, downloading!---"
             cd ${SERVER_DIR}
-            if wget -q -nc --show-progress --progress=bar:force:noscroll $DL_URL ; then
+            if wget -q -nc --show-progress --progress=bar:force:noscroll "$DL_URL" ; then
                   echo "---Download complete---"
             else
                   echo "---Something went wrong, can't download FiveM, putting server in sleep mode---"
@@ -155,6 +155,6 @@ fi
 
 echo "---Starting Server---"
 cd ${SERVER_DIR}
-screen -S FiveM -L -Logfile ${SERVER_DIR}/server.log -m ${SERVER_DIR}/run.sh +exec ${GAME_CONFIG} ${START_VARS}
+screen -S FiveM -L -Logfile ${SERVER_DIR}/masterLog.0 -d -m ${SERVER_DIR}/run.sh +exec ${GAME_CONFIG} ${START_VARS}
 sleep 2
-tail -f ${SERVER_DIR}/server.log
+tail -f ${SERVER_DIR}/masterLog.0
