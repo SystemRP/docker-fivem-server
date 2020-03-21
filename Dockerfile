@@ -7,7 +7,7 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/*
 
 ENV DATA_DIR="/server"
-ENV SERVER_DIR="${DATA_DIR}/serverfiles"
+ENV SERVER_DIR="${DATA_DIR}/data"
 ENV GAME_CONFIG="template"
 ENV SRV_ADR="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/"
 ENV MANUAL_UPDATES=""
