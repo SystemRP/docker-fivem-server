@@ -95,7 +95,7 @@ if [ ! -f "${SERVER_DIR}/server.cfg" ]; then
   cd ${SERVER_DIR}
   wget -q -nc --show-progress --progress=bar:force:noscroll server.cfg "https://raw.githubusercontent.com/SystemRP/docker-fivem-server/master/configs/server.cfg"
 fi
-chmod -R ${DATA_PERM} ${DATA_DIR}
+chmod -R ${DATA_PERM} ${SERVER_DIR}
 echo "---Checking for old logs---"
 find ${SERVER_DIR} -name "masterLog.*" -exec rm -f {} \;
 
