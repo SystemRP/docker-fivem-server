@@ -65,7 +65,7 @@ elif [ "$LAT_V" != "$CUR_V" ]; then
         rm ${SERVER_DIR}/fiveminstalled-*
     fi
     cd ${SERVER_DIR}
-    if wget -q -nc --show-progress --progress=bar:force:noscroll fx.tar.xz $DL_URL ; then
+    if wget -qO fx.tar.xz -nc --show-progress --progress=bar:force:noscroll "$DL_URL" ; then
         echo "---Download complete---"
     else
         echo "---Something went wrong, can't download FiveM, putting server in sleep mode---"
