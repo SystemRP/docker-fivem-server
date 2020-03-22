@@ -3,127 +3,82 @@ CUR_V="$(find ${SERVER_DIR} -name fiveminstalled-* | cut -d '-' -f 2,3)"
 LAT_V="$(curl -s https://fivem.gbps.io/linux/${VERSION} | cut -d '-' -f 1 | cut -d '/' -f 8)"
 DL_URL=$(curl -s https://fivem.gbps.io/linux/${VERSION})
 
-if [ "${MANUAL_UPDATES}" == "true" ]; then
-    if [ "$CUR_V" == "manual" ]; then
-    	if [ -f ${SERVER_DIR}/fx.tar.xz ]; then
+if [ ! -f ${SERVER_DIR}/fiveminstalled-* ]; then
+    if [ "${LAT_V}" == "" ]; then
+        if [ ! -f ${SERVER_DIR}/fx.tar.xz ]; then
+            echo "-------------------------------------------------------------------------"
+            echo "--------Could not get latest game version from master server-------------"
+            echo "----------please put the Server file 'fx.tar.xz' in the main-------------"
+            echo "-----------------directory, you can get it from:-------------------------"
+            echo "---https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/---"
+            echo "----------and restart the Docker, putting Server into sleep mode---------"
+            echo "-------------------------------------------------------------------------"
+            sleep infinity
+        else
             echo "---File 'fx.tar.xz' found, installing...---"
-            if [ -f ${SERVER_DIR}/fiveminstalled-* ]; then
-                rm ${SERVER_DIR}/fiveminstalled-*
-            fi
             cd ${SERVER_DIR}
             tar -xf fx.tar.xz
             sleep 2
             rm -R fx.tar.xz
-            touch fiveminstalled-manual
+            touch ${SERVER_DIR}/fiveminstalled-manual
             echo "---Installation of new 'fx.tar.xz' complete---"
-        else
-    		echo "---FiveM found---"
         fi
-	elif [ ! -f ${SERVER_DIR}/fx.tar.xz ]; then
-		echo "-------------------------------------------------------------------------"
-        echo "-------------------!!!Manual updates enabled!!!--------------------------"
-		echo "----------Please put the Server file 'fx.tar.xz' in the main-------------"
-		echo "-----------------directory, you can get it from:-------------------------"
-		echo "---https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/---"
-		echo "----------and restart the Docker, putting Server into sleep mode---------"
-		echo "-------------------------------------------------------------------------"
-		sleep infinity
-    else
-		echo "---File 'fx.tar.xz' found, installing...---"
-        if [ -f ${SERVER_DIR}/fiveminstalled-* ]; then
-        	rm ${SERVER_DIR}/fiveminstalled-*
-        fi
-		cd ${SERVER_DIR}
-		tar -xf fx.tar.xz
-		sleep 2
-		rm -R fx.tar.xz
-    	touch fiveminstalled-manual
-		echo "---Installation of new 'fx.tar.xz' complete---"
-    fi
-else
-    if [ ! -f ${SERVER_DIR}/fiveminstalled-* ]; then
-        if [ "${LAT_V}" == "" ]; then
-            if [ ! -f ${SERVER_DIR}/fx.tar.xz ]; then
-                echo "-------------------------------------------------------------------------"
-                echo "--------Could not get latest game version from master server-------------"
-                echo "----------please put the Server file 'fx.tar.xz' in the main-------------"
-                echo "-----------------directory, you can get it from:-------------------------"
-                echo "---https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/---"
-                echo "----------and restart the Docker, putting Server into sleep mode---------"
-                echo "-------------------------------------------------------------------------"
-                sleep infinity
-            else
-                echo "---File 'fx.tar.xz' found, installing...---"
-                cd ${SERVER_DIR}
-                tar -xf fx.tar.xz
-                sleep 2
-                rm -R fx.tar.xz
-                touch ${SERVER_DIR}/fiveminstalled-manual
-                echo "---Installation of new 'fx.tar.xz' complete---"
-            fi
-        elif [ "$LAT_V" != "" ]; then
-            echo "---FiveM not found, downloading!---"
-            cd ${SERVER_DIR}
-            if wget -q -nc --show-progress --progress=bar:force:noscroll "$DL_URL" ; then
-                  echo "---Download complete---"
-            else
-                  echo "---Something went wrong, can't download FiveM, putting server in sleep mode---"
-                  sleep infinity
-            fi
-            tar -xf fx.tar.xz
-            rm -R fx.tar.xz
-            touch ${SERVER_DIR}/fiveminstalled-$LAT_V
-            echo "---Installation of new 'fx.tar.xz' complete---"
-            CUR_V="$(find ${SERVER_DIR} -name fiveminstalled-* | cut -d '-' -f 2,3)"
-         fi
-    fi
-    echo "---Version Check---"
-    if [ "$CUR_V" == "manual" ]; then
-        echo "---------------------------------------------------------------"
-        echo "---Manual installed version found, if you want to autoupdate---"
-        echo "------and there is no Captcha check on the FiveM download------"
-        echo "---server delte the file 'fiveminstalled-manual' in the main---"
-        echo "-----------------directory of the container--------------------"
-        sleep 5
-    else
-        if [ "$LAT_V" == "" ]; then
-            echo "-------------------------------------------------------"
-            echo "----Could not get latest version from master server----"
-            echo "---please check manualy if there is a newer version---"
-            echo "---and place the file manualy in the main directory---"
-            echo "-------------------------------------------------------"
-            if [ -f ${SERVER_DIR}/fx.tar.xz ]; then
-                echo "---File 'fx.tar.xz' found, installing...---"
-        		if [ -f ${SERVER_DIR}/fiveminstalled-* ]; then
-                    rm ${SERVER_DIR}/fiveminstalled-*
-                fi
-                cd ${SERVER_DIR}
-                tar -xf fx.tar.xz
-                sleep 2
-                rm -R fx.tar.xz
-                touch ${SERVER_DIR}/fiveminstalled-manual
-                echo "---Installation of new 'fx.tar.xz' complete---"
-            fi
-        elif [ "$LAT_V" != "$CUR_V" ]; then
-            echo "---Newer version found, installing!---"
-    		if [ -f ${SERVER_DIR}/fiveminstalled-* ]; then
-                rm ${SERVER_DIR}/fiveminstalled-*
-            fi
-            cd ${SERVER_DIR}
-            if wget -q -nc --show-progress --progress=bar:force:noscroll fx.tar.xz $DL_URL ; then
+    elif [ "$LAT_V" != "" ]; then
+        echo "---FiveM not found, downloading!---"
+        cd ${SERVER_DIR}
+        if wget -q -nc --show-progress --progress=bar:force:noscroll "$DL_URL" ; then
                 echo "---Download complete---"
-            else
+        else
                 echo "---Something went wrong, can't download FiveM, putting server in sleep mode---"
                 sleep infinity
-            fi
-            tar -xf fx.tar.xz
-            rm ${SERVER_DIR}/fx.tar.xz
-            touch fiveminstalled-$LAT_V
-        elif [ "$LAT_V" == "$CUR_V" ]; then
-            echo "---FiveM Version up-to-date---"
         fi
-    fi
+        tar -xf fx.tar.xz
+        rm -R fx.tar.xz
+        touch ${SERVER_DIR}/fiveminstalled-$LAT_V
+        echo "---Installation of new 'fx.tar.xz' complete---"
+        CUR_V="$(find ${SERVER_DIR} -name fiveminstalled-* | cut -d '-' -f 2,3)"
+        fi
 fi
+echo "---Version Check---"
+
+if [ "$LAT_V" == "" ]; then
+    echo "-------------------------------------------------------"
+    echo "----Could not get latest version from master server----"
+    echo "---please check manualy if there is a newer version---"
+    echo "---and place the file manualy in the main directory---"
+    echo "-------------------------------------------------------"
+    if [ -f ${SERVER_DIR}/fx.tar.xz ]; then
+        echo "---File 'fx.tar.xz' found, installing...---"
+        if [ -f ${SERVER_DIR}/fiveminstalled-* ]; then
+            rm ${SERVER_DIR}/fiveminstalled-*
+        fi
+        cd ${SERVER_DIR}
+        tar -xf fx.tar.xz
+        sleep 2
+        rm -R fx.tar.xz
+        touch ${SERVER_DIR}/fiveminstalled-manual
+        echo "---Installation of new 'fx.tar.xz' complete---"
+    fi
+elif [ "$LAT_V" != "$CUR_V" ]; then
+    echo "---Newer version found, installing!---"
+    if [ -f ${SERVER_DIR}/fiveminstalled-* ]; then
+        rm ${SERVER_DIR}/fiveminstalled-*
+    fi
+    cd ${SERVER_DIR}
+    if wget -q -nc --show-progress --progress=bar:force:noscroll fx.tar.xz $DL_URL ; then
+        echo "---Download complete---"
+    else
+        echo "---Something went wrong, can't download FiveM, putting server in sleep mode---"
+        sleep infinity
+    fi
+    tar -xf fx.tar.xz
+    rm ${SERVER_DIR}/fx.tar.xz
+    touch fiveminstalled-$LAT_V
+elif [ "$LAT_V" == "$CUR_V" ]; then
+    echo "---FiveM Version up-to-date---"
+fi
+
+
 
 if [ ! -d "${SERVER_DIR}/resources" ]; then
   echo "---SERVER-DATA not found, downloading...---"
