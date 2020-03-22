@@ -15,7 +15,7 @@ Notice: Simply restart the container and it will download the newest version or 
 | --- | --- | --- |
 | SERVER_DIR | Folder for gamefile | /serverdata/serverfiles |
 | GAME_CONFIG | The name of your server configuration file | server.cfg |
-| VERSION | Place your server key obtained from: https://keymaster.fivem.net/ here | placeyourkeyhere |
+| VERSION | Either stable, optional or development | development |
 | START_VARS | Enter your extra startup variables here if needed | |
 | MANUAL_UPDATES | Set to 'true' if you want to update the server manually (otherwise leave blank) | *blank* |
 | UID | User Identifier | 99 |
