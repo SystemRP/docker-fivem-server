@@ -13,7 +13,7 @@ Notice: Simply restart the container and it will download the newest version or 
 ## Env params
 | Name | Value | Example |
 | --- | --- | --- |
-| SERVER_DIR | Folder for gamefile | /serverdata/serverfiles |
+| SERVER_DIR | Folder for gamefile | /server/data |
 | GAME_CONFIG | The name of your server configuration file | server.cfg |
 | VERSION | Either stable, optional or development | development |
 | START_VARS | Enter your extra startup variables here if needed | |
