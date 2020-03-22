@@ -110,14 +110,14 @@ else
                 rm ${SERVER_DIR}/fiveminstalled-*
             fi
             cd ${SERVER_DIR}
-            if wget -q -nc --show-progress --progress=bar:force:noscroll $DL_URL ; then
+            if wget -o "fx.tar.xz" -q -nc --show-progress --progress=bar:force:noscroll "$DL_URL" ; then
                 echo "---Download complete---"
             else
                 echo "---Something went wrong, can't download FiveM, putting server in sleep mode---"
                 sleep infinity
             fi
             tar -xf fx.tar.xz
-            rm ${SERVER_DIR}/$LAT_V/fx.tar.xz
+            rm ${SERVER_DIR}/fx.tar.xz
             touch fiveminstalled-$LAT_V
         elif [ "$LAT_V" == "$CUR_V" ]; then
             echo "---FiveM Version up-to-date---"
@@ -155,6 +155,6 @@ fi
 
 echo "---Starting Server---"
 cd ${SERVER_DIR}
-screen -S FiveM -L -Logfile ${SERVER_DIR}/masterLog.0 -d -m ${SERVER_DIR}/run.sh +exec ${GAME_CONFIG} ${START_VARS}
+screen -d -m -S FiveM -L -Logfile ${SERVER_DIR}/masterLog.0 -d -m ${SERVER_DIR}/run.sh +exec ${GAME_CONFIG} ${START_VARS}
 sleep 2
 tail -f ${SERVER_DIR}/masterLog.0
